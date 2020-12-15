@@ -1,0 +1,13 @@
+version: '3'
+services:
+    php-fpm:
+        container_name: php-fpm
+        image: php-fpm
+        volumes:
+            - .:/var/www/
+        build:
+            context: docker/php
+        environment:
+            PHP_IDE_CONFIG: "serverName=wsl.host"
+        ports:
+            - "9000:9000"
