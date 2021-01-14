@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     libmagickwand-dev \
     iputils-ping
 
-ADD ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+ADD xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -40,14 +40,11 @@ RUN docker-php-ext-enable xdebug
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 
-# Copy existing application directory contents
-COPY project-src /var/www
-
 # Copy existing application directory permissions
-COPY --chown=www:www . /var/www
+COPY --chown=www:www .. /var/www
 
-COPY ./xdebug.log /tmp/logs/xdebug/xdebug.log
-COPY --chown=www:www ./xdebug.log /tmp/logs/xdebug/xdebug.log
+COPY xdebug.log /tmp/logs/xdebug/xdebug.log
+COPY --chown=www:www xdebug.log /tmp/logs/xdebug/xdebug.log
 RUN chmod 777 /tmp/logs/xdebug/xdebug.log
 
 # Change current user to www
